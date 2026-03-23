@@ -14,6 +14,45 @@ perform statistical analysis, detect anomalies, and visualise system behaviour.
 
 The final system resembles a miniature version of production observability pipelines used in industry.
 
+System Architecture:
 
+Server Nodes (log stream)
+    |
+    |
+    |
+Log Collector
+    |
+    |
+    |
+Analytics Engine
+    |
+    |
+    |
+Visualization Dashboard
+
+Simply, servers generate logs, Collector receives them, and Analytics processes them.
+
+Example log format:
+timestamp, server_id, ip, endpoint, status, response_time
+2026-03-23T18:27:30, server1, 192.168.1.3, /api/data, 200, 0.145
 '''
 
+# Python log generator
+import random
+import datetime
+
+servers = ["server1", "server2", "server3"]
+ips = ["192.168.0.2", "192.168.0.5", "10.0.0.8", "172.16.0.1"]
+pages = ["/", "/login", "/api/data", "/products"]
+status = [200, 200, 200, 404, 500]
+
+with open("distributed_logs.csv", "w") as f:
+    for i in range(10000):
+        time = datetime.datetime.now().isoformat()
+        server = random.choice(servers)
+        ip = random.choice(ips)
+        page = random.choice(pages)
+        code = random.choice(status)
+        response = round(random.uniform(0.05,1.2),3)
+
+        f.write(f"{time}, {server}, {ip}, {page}, {code}, {response}\n")
