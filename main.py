@@ -56,3 +56,9 @@ with open("distributed_logs.csv", "w") as f:
         response = round(random.uniform(0.05,1.2),3)
 
         f.write(f"{time}, {server}, {ip}, {page}, {code}, {response}\n")
+
+# Log Collector
+import pandas as pd
+columns = ["time", "server", "ip", "endpoint", "status", "response"]
+df = pd.read_csv("distributed_logs.csv", names=columns)
+print(df.head())
