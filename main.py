@@ -62,3 +62,24 @@ import pandas as pd
 columns = ["time", "server", "ip", "endpoint", "status", "response"]
 df = pd.read_csv("distributed_logs.csv", names=columns)
 print(df.head())
+
+# Data structures for Fast Queries
+'''
+As those logs become massive, we must index them efficiently.
+So, our goal is to create fast lookup structures.
+'''
+from collections import defaultdict
+ip_index = defaultdict(list)
+
+for i, row in df.iterrows():
+    ip_index[row["ip"]].append(i)
+
+# Server Performance Metrics (compute system health metrics)
+# 1- average response time per server
+server_perf = df.groupby("server")['response'].mean()
+
+# 2- error rate
+error_rate = df[df['status'] >= 500].shape[0] / df.shape[0]
+
+# 3- endpoint popularity
+endpoint_count = df['endpoint'].value_counts()
