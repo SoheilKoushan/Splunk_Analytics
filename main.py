@@ -104,8 +104,11 @@ Time Series Traffic Analysis
 '''
 df['time'] = pd.to_datetime(df['time'])
 traffic = df.set_index('time').resample('1Min').count()
+print(traffic)
 
 import matplotlib.pyplot as plt
 traffic['ip'].plot()
 plt.title("Traffic per Minute")
+deltaT = datetime.timedelta(minutes=5)
+plt.xlim(df['time'].min() - deltaT,df['time'].max() + deltaT)
 plt.show()
