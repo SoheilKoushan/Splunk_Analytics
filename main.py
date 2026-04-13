@@ -83,3 +83,29 @@ error_rate = df[df['status'] >= 500].shape[0] / df.shape[0]
 
 # 3- endpoint popularity
 endpoint_count = df['endpoint'].value_counts()
+
+# Statistical Anomaly Detection
+'''
+The goal is to detect unusual system behaviour
+the method we are using is a z index
+z = x - mu / sigma
+'''
+
+mean = df['response'].mean()
+std = df['response'].std()
+
+df['zscore'] = (df['response'] - mean) / std
+anomalies = df[abs(df['zscore']) > 3]
+
+
+'''
+Time Series Traffic Analysis
+(analyse server load patterns)
+'''
+df['time'] = pd.to_datetime(df['time'])
+traffic = df.set_index('time').resample('1Min').count()
+
+import matplotlib.pyplot as plt
+traffic['ip'].plot()
+plt.title("Traffic per Minute")
+plt.show()
