@@ -48,7 +48,7 @@ status = [200, 200, 200, 404, 500]
 
 with open("distributed_logs.csv", "w") as f:
     for i in range(10000):
-        time = datetime.datetime.now().isoformat()
+        time = (datetime.datetime.now() + datetime.timedelta(minutes=random.uniform(-10,10))).isoformat()
         server = random.choice(servers)
         ip = random.choice(ips)
         page = random.choice(pages)
